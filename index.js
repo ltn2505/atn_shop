@@ -1,58 +1,60 @@
-//const { Router } = require("express");
 const express = require("express");
 const app = express();
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.set("views", "./views");
-//var router = express.Router();
 const port = process.env.PORT || 3001;
-const { Pool, Client } = require('pg')
+const { Pool, Client } = require('pg');
+var bodyParser = require('body-parser');
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
-
-//const connectionString = 'postgresql://postgres:123456@localhost:5432/nodepg'
-//const connectionString = 'postgres://hzhagotljosawg:a4814e357a3fdca11e0b6084b0cb9d583997d0b9d862ba8b5c3c7225516a21c4@ec2-3-212-168-103.compute-1.amazonaws.com:5432/d4ssg28at051ir'
-/*const pool = new Pool({
-    connectionString,
-})
-app.get('/customer', function (req, res) {
-    pool.query("SELECT * FROM public.customer ORDER BY id ASC", function (req, result) {
-        res.render('customer', { list: result });
-    })
-})*/
-const client = new Client({
+//'postgresql://postgres:123456@localhost:5432/nodepg'
+const pool = new Pool({
     connectionString: process.env.DATABASE_URL || 'postgres://hzhagotljosawg:a4814e357a3fdca11e0b6084b0cb9d583997d0b9d862ba8b5c3c7225516a21c4@ec2-3-212-168-103.compute-1.amazonaws.com:5432/d4ssg28at051ir',
     ssl: {
         rejectUnauthorized: false
     }
 });
 
-client.connect();
 app.get('/customer', function (req, res) {
-    client.query('SELECT * FROM public.customer;', function (req, result) {
-
-        //if (err) throw err;
-        /*for (let row of res.rows) {
-            console.log(JSON.stringify(row));
-            //res.render('customer');
-        }*/
-        res.render('customer', { list: result });
-        // client.end();
+    pool.connect(function (err, client) {
+        client.query('SELECT * FROM public.customer;', function (req, result) {
+            res.render('customer', { list: result });
+        });
     });
 });
-/*const client = new Client({
-    connectionString,
+
+app.get('/resigter', function (req, res) {
+    res.render('resigter');
 })
-client.connect()
-client.query('SELECT NOW()', (err, res) => {
-    console.log(err, res)
-    client.end()
-})*/
+app.post("/resigter", urlencodedParser, function (req, res) {
+    pool.connect(function (err, client) {
+        var ten = req.body.txtName;
+        var tuoi = req.body.txtAge;
+        var mail = req.body.txtEmail;
+        var diachi = req.body.txtAddress;
+
+        client.query("INSERT INTO customer(name,age,email,address) VALUES('" + ten + "','" + tuoi + "','" + mail + "','" + diachi + "')", function (req, result) {
 
 
-/*app.get("/customer", function (req, res) {
+            res.redirect('../customer');
+        });
+    })
+})
 
-    res.render("customer");
-})*/
+app.get('/login', function (req, res) {
+    res.render('login');
+})
+
+app.post("/login", urlencodedParser, function (req, res) {
+    pool.connect(function (err, client) {
+        var mail = req.body.txtEmail;
+        client.query("SELECT email from customer WHERE ('" + mail + "')=email", function (req, result) {
+            res.send("dang nhap thanh cong");
+            //res.redirect('../customer');
+        });
+    })
+})
 
 app.get("/test", function (req, res) {
     res.render("test");
@@ -62,6 +64,6 @@ app.get("/", function (req, res) {
     res.render("main");
 });
 
-app.listen(port, () => {  // do not add localhost here if you are deploying it
+app.listen(port, () => {
     console.log("server listening to port " + port);
 });
