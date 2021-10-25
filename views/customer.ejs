@@ -6,56 +6,86 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="/public/css/style.css">
 </head>
 
 <body>
-    <table width="500" border="1">
-        <tr>
-            <td>
-                ID
-            </td>
-            <td>
-                Name
-            </td>
-            <td>
-                Age
-            </td>
-            <td>
-                Email
-            </td>
-            <td>
-                Address
-            </td>
-            <td>
-                Action
-            </td>
-        </tr>
+    <%- include("D:/atn_shop/views/header") %>
+        <div class="container">
+            <table width="100%" border="1">
+                <tr>
+                    <td>
+                        ID
+                    </td>
+                    <td>
+                        User Name
+                    </td>
+                    <td>
+                        Password
+                    </td>
+                    <td>
+                        Full Name
+                    </td>
+                    <td>
+                        Email
+                    </td>
+                    <td>
+                        Number Phone
+                    </td>
+                    <td>
+                        Address
+                    </td>
+                    <td>
+                        Action
+                    </td>
+                </tr>
 
-        <% list.rows.forEach(function(cus){ %>
-            <tr>
-                <td>
-                    <%=cus.id%>
-                </td>
-                <td>
-                    <%=cus.name%>
-                </td>
-                <td>
-                    <%=cus.age%>
-                </td>
-                <td>
-                    <%=cus.email%>
-                </td>
-                <td>
-                    <%=cus.address%>
-                </td>
-                <td>
-                    <button type="button"><a href="../customer/edit/<%=cus.ID%>">Edit</a></button>
-                    <button type="button"><a href="../customer/delete/<%=cus.ID%>">Delete</a></button>
-                </td>
-            </tr>
-            <% }); %>
+                <% list.rows.forEach(function(cus){ %>
+                    <tr>
+                        <td>
+                            <%=cus.id%>
+                        </td>
+                        <td>
+                            <%=cus.user_name%>
+                        </td>
+                        <td>
+                            <%=cus.password%>
+                        </td>
+                        <td>
+                            <%=cus.full_name%>
+                        </td>
+                        <td>
+                            <%=cus.email%>
+                        </td>
+                        <td>
+                            <%=cus.number_phone%>
+                        </td>
+                        <td>
+                            <%=cus.address%>
+                        </td>
+                        <td>
+                            <button type="text"><a href="../customer/edituser/<%=cus.id%>">Edit</a></button>
+                            <button type="text"><a href="../customer/delete/<%=cus.id%>">Delete</a></button>
+                        </td>
+                    </tr>
+                    <% }); %>
 
-    </table>
+            </table>
+        </div>
+        <%- include("D:/atn_shop/views/footer") %>
+
+
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+                integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+                crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+                crossorigin="anonymous"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+                integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+                crossorigin="anonymous"></script>
 </body>
 
 </html>

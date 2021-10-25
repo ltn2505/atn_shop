@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+app.use('/public', express.static('public'));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.set("views", "./views");
@@ -29,14 +30,14 @@ app.get('/resigter', function (req, res) {
 })
 app.post("/resigter", urlencodedParser, function (req, res) {
     pool.connect(function (err, client) {
-        var ten = req.body.txtName;
-        var tuoi = req.body.txtAge;
-        var mail = req.body.txtEmail;
-        var diachi = req.body.txtAddress;
+        var username = req.body.txtUserName;
+        var pass = req.body.txtPass;
+        var fullname = req.body.txtFullName;
+        var email = req.body.txtEmail;
+        var phone = req.body.txtPhone;
+        var address = req.body.txtAddress;
 
-        client.query("INSERT INTO customer(name,age,email,address) VALUES('" + ten + "','" + tuoi + "','" + mail + "','" + diachi + "')", function (req, result) {
-
-
+        client.query("INSERT INTO customer(user_name,password,full_name,email,number_phone,address) VALUES('" + username + "','" + pass + "','" + fullname + "','" + email + "','" + phone + "','" + address + "')", function (req, result) {
             res.redirect('../customer');
         });
     })
@@ -44,6 +45,21 @@ app.post("/resigter", urlencodedParser, function (req, res) {
 
 app.get('/login', function (req, res) {
     res.render('login');
+})
+
+app.get("/customer/edituser/:id", function (req, res) {
+    pool.connect(function (err, client, done) {
+        var id = req.params.id;
+        client.query("SELECT * FROM customer Where id='" + id + "'", function (err, result) {
+            done();
+            if (err) {
+                res.end();
+                return console.error('error running query', err);
+            }
+            //console.log(result.rows[0]);
+            res.render('edituser', { user: result.rows[0] });
+        });
+    });
 })
 
 app.post("/login", urlencodedParser, function (req, res) {
