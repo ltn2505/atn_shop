@@ -16,6 +16,7 @@ const pool = new Pool({
         rejectUnauthorized: false
     }
 });
+pool.connect();
 
 app.get('/customer', function (req, res) {
     pool.connect(function (err, client) {
