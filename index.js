@@ -20,7 +20,7 @@ pool.connect();
 
 app.get('/customer', function (req, res) {
     pool.connect(function (err, client) {
-        client.query('SELECT * FROM public.customer;', function (req, result) {
+        client.query('SELECT * FROM public.customer ORDER BY id ASC', function (req, result) {
             res.render('./page/customer', { list: result });
         });
     });
@@ -39,7 +39,7 @@ app.post("/resigter", urlencodedParser, function (req, res) {
         var address = req.body.txtAddress;
 
         client.query("INSERT INTO customer(user_name,password,full_name,email,number_phone,address) VALUES('" + username + "','" + pass + "','" + fullname + "','" + email + "','" + phone + "','" + address + "')", function (req, result) {
-            res.redirect('./page/main');
+            res.redirect('/');
         });
     })
 })
@@ -63,6 +63,22 @@ app.get("/customer/edituser/:id", function (req, res) {
     });
 })
 
+app.post("/customer/edituser", urlencodedParser, function (req, res) {
+    pool.connect(function (err, client) {
+        var id = req.body.txtID;
+        var username = req.body.txtUserName;
+        var pass = req.body.txtPass;
+        var fullname = req.body.txtFullName;
+        var email = req.body.txtEmail;
+        var phone = req.body.txtPhone;
+        var address = req.body.txtAddress;
+
+        client.query("UPDATE customer SET user_name='" + username + "',password='" + pass + "',full_name='" + fullname + "',email='" + email + "',number_phone='" + phone + "',address='" + address + "' WHERE id='" + id + "' ", function (req, result) {
+            res.redirect('../customer');
+        });
+    })
+})
+
 app.post("/login", urlencodedParser, function (req, res) {
     pool.connect(function (err, client) {
         var mail = req.body.txtEmail;
@@ -71,6 +87,21 @@ app.post("/login", urlencodedParser, function (req, res) {
             //res.redirect('../customer');
         });
     })
+})
+
+app.get("/customer/delete/:id", function (req, res) {
+    pool.connect(function (err, client, done) {
+        var id = req.params.id;
+        client.query("DELETE FROM customer Where id='" + id + "'", function (err, result) {
+            done();
+            if (err) {
+                res.end();
+                return console.error('error running query', err);
+            }
+            //console.log(result.rows[0]);
+            res.redirect('/customer');
+        });
+    });
 })
 
 
