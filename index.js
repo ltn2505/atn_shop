@@ -21,13 +21,13 @@ pool.connect();
 app.get('/customer', function (req, res) {
     pool.connect(function (err, client) {
         client.query('SELECT * FROM public.customer;', function (req, result) {
-            res.render('customer', { list: result });
+            res.render('./page/customer', { list: result });
         });
     });
 });
 
 app.get('/resigter', function (req, res) {
-    res.render('resigter');
+    res.render('./page/resigter');
 })
 app.post("/resigter", urlencodedParser, function (req, res) {
     pool.connect(function (err, client) {
@@ -39,13 +39,13 @@ app.post("/resigter", urlencodedParser, function (req, res) {
         var address = req.body.txtAddress;
 
         client.query("INSERT INTO customer(user_name,password,full_name,email,number_phone,address) VALUES('" + username + "','" + pass + "','" + fullname + "','" + email + "','" + phone + "','" + address + "')", function (req, result) {
-            res.redirect('../customer');
+            res.redirect('./page/main');
         });
     })
 })
 
 app.get('/login', function (req, res) {
-    res.render('login');
+    res.render('./page/login');
 })
 
 app.get("/customer/edituser/:id", function (req, res) {
@@ -58,7 +58,7 @@ app.get("/customer/edituser/:id", function (req, res) {
                 return console.error('error running query', err);
             }
             //console.log(result.rows[0]);
-            res.render('edituser', { user: result.rows[0] });
+            res.render('./page/edituser', { user: result.rows[0] });
         });
     });
 })
@@ -73,12 +73,9 @@ app.post("/login", urlencodedParser, function (req, res) {
     })
 })
 
-app.get("/test", function (req, res) {
-    res.render("test");
-});
 
 app.get("/", function (req, res) {
-    res.render("main");
+    res.render("./page/main");
 });
 
 app.listen(port, () => {
