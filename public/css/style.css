@@ -44,7 +44,7 @@ header{
 }
 
 a {
-    color: #1f68b1;
+    color: #062d7c;
     text-decoration: none;
     background-color: transparent;
 }
@@ -73,7 +73,13 @@ table {
     margin-bottom: 151px;
 }
 .container{
-    margin-top: 150px;
+    margin-top: 50px;
     margin-bottom: 100px;
 }
-
+.cot{
+   
+    width: 100%;
+}
+.www a{
+    color: #f5f5f5;
+}
