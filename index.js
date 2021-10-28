@@ -81,10 +81,14 @@ app.post("/customer/edituser", urlencodedParser, function (req, res) {
 
 app.post("/login", urlencodedParser, function (req, res) {
     pool.connect(function (err, client) {
-        var mail = req.body.txtEmail;
-        client.query("SELECT email from customer WHERE ('" + mail + "')=email", function (req, result) {
-            res.send("dang nhap thanh cong");
-            //res.redirect('../customer');
+        var username = req.body.txtUserName;
+        var pass = req.body.txtPass;
+        client.query("SELECT * from customer WHERE user_name=('" + username + "') AND password =('" + pass + "')", function (req, result) {
+            if (result.rowCount > 0) {
+                return res.redirect('/');
+            }
+            res.redirect("/login");
+
         });
     })
 })

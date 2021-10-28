@@ -69,7 +69,10 @@
                     </td>
                     <td>
                         <button type="text"><a href="../customer/edituser/<%=cus.id%>">Edit</a></button>
-                        <button type="text"><a href="../customer/delete/<%=cus.id%>">Delete</a></button>
+                        <button type="text">
+                            <a onClick="return confirm ('Are you sure delete')" a href="../customer/delete/<%=cus.id%>">
+                                Delete</a>
+                        </button>
                     </td>
                 </tr>
                 <% }); %>

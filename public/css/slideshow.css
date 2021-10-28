@@ -1,10 +1,9 @@
 #slideshow {
     overflow: hidden;
-    height: 510px;
-    width: 728px;
+    height: auto !important;
+    width: 100% !important;
 
-    
-  }
+}
   
   .slide-wrapper {
     width: 2912px;
