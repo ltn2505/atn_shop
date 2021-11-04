@@ -18,6 +18,12 @@ const pool = new Pool({
 });
 pool.connect();
 
+
+
+
+
+
+
 app.get('/customer', function (req, res) {
     pool.connect(function (err, client) {
         client.query('SELECT * FROM public.customer ORDER BY id ASC', function (req, result) {
@@ -38,7 +44,7 @@ app.post("/resigter", urlencodedParser, function (req, res) {
         var phone = req.body.txtPhone;
         var address = req.body.txtAddress;
 
-        client.query("INSERT INTO customer(user_name,password,full_name,email,number_phone,address) VALUES('" + username + "','" + pass + "','" + fullname + "','" + email + "','" + phone + "','" + address + "')", function (req, result) {
+        client.query("INSERT INTO customer(user_name,password,full_name,email,number_phone,address,state) VALUES('" + username + "','" + pass + "','" + fullname + "','" + email + "','" + phone + "','" + address + "',0)", function (req, result) {
             res.redirect('/');
         });
     })
